@@ -21,7 +21,7 @@ public class PricingService {
     @Autowired
     private PriceListRepository priceListRepository;
 
-    // Price operations
+
     public List<Price> getProductPrices(String productId) {
         return priceRepository.findActiveProductPrices(productId);
     }
@@ -38,7 +38,6 @@ public class PricingService {
         return priceRepository.findPricesInRange(minPrice, maxPrice);
     }
 
-    // Price List operations
     public List<PriceList> getActivePriceLists() {
         return priceListRepository.findActivePriceLists(LocalDateTime.now());
     }
@@ -51,7 +50,7 @@ public class PricingService {
         return priceListRepository.findById(id);
     }
 
-    // Helper methods
+
     public Optional<BigDecimal> getLowestPrice(String productId, String variantId) {
         List<Price> prices = getCurrentPrices(productId, variantId);
         return prices.stream()

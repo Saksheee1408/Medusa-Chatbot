@@ -23,7 +23,7 @@ public class ProductVariantService {
 
     // CREATE operations
     public ProductVariant createVariant(String productId, String title, String sku, String barcode) {
-        // Validate product exists
+
         Optional<Product> product = productRepository.findById(productId);
         if (product.isEmpty()) {
             throw new IllegalArgumentException("Product with ID " + productId + " not found");
@@ -31,7 +31,7 @@ public class ProductVariantService {
 
         ProductVariant variant = new ProductVariant();
 
-        // Generate variant ID
+
         String uuid = UUID.randomUUID().toString().replace("-", "");
         variant.setId("variant_" + uuid.substring(0, 8));
 
@@ -40,13 +40,12 @@ public class ProductVariantService {
         variant.setSku(sku);
         variant.setBarcode(barcode);
 
-        // Set defaults
+
         variant.setAllowBackorder(false);
         variant.setManageInventory(true);
         variant.setCreatedAt(LocalDateTime.now());
         variant.setUpdatedAt(LocalDateTime.now());
 
-        // Calculate variant rank (next position)
         Integer maxRank = variantRepository.getMaxVariantRankForProduct(productId);
         variant.setVariantRank(maxRank != null ? maxRank + 1 : 1);
 
@@ -54,7 +53,7 @@ public class ProductVariantService {
     }
 
     public ProductVariant createVariant(String productId, ProductVariant variant) {
-        // Validate product exists
+
         Optional<Product> product = productRepository.findById(productId);
         if (product.isEmpty()) {
             throw new IllegalArgumentException("Product with ID " + productId + " not found");
@@ -78,7 +77,7 @@ public class ProductVariantService {
             variant.setManageInventory(true);
         }
 
-        // Calculate variant rank if not provided
+
         if (variant.getVariantRank() == null) {
             Integer maxRank = variantRepository.getMaxVariantRankForProduct(productId);
             variant.setVariantRank(maxRank != null ? maxRank + 1 : 1);
@@ -87,7 +86,7 @@ public class ProductVariantService {
         return variantRepository.save(variant);
     }
 
-    // READ operations
+
     public List<ProductVariant> getAllVariants() {
         return variantRepository.findAll();
     }
@@ -256,7 +255,6 @@ public class ProductVariantService {
         return variantRepository.findByProductIdAndDeletedAtIsNullOrderByVariantRankAsc(productId);
     }
 
-    // REORDERING operations
     public boolean reorderVariants(String productId, List<String> variantIds) {
         try {
             for (int i = 0; i < variantIds.size(); i++) {
@@ -274,9 +272,9 @@ public class ProductVariantService {
         }
     }
 
-    // BULK operations
+
     public List<ProductVariant> createMultipleVariants(String productId, List<ProductVariant> variants) {
-        // Validate product exists
+
         Optional<Product> product = productRepository.findById(productId);
         if (product.isEmpty()) {
             throw new IllegalArgumentException("Product with ID " + productId + " not found");
@@ -286,7 +284,7 @@ public class ProductVariantService {
         int nextRank = currentMaxRank != null ? currentMaxRank + 1 : 1;
 
         for (ProductVariant variant : variants) {
-            // Generate variant ID if not provided
+
             if (variant.getId() == null || variant.getId().isEmpty()) {
                 String uuid = UUID.randomUUID().toString().replace("-", "");
                 variant.setId("variant_" + uuid.substring(0, 8));
@@ -311,14 +309,13 @@ public class ProductVariantService {
         return variantRepository.saveAll(variants);
     }
 
-    // SEARCH and FILTER operations
+
     public List<ProductVariant> findVariantsByProductTitle(String productTitle) {
         return variantRepository.findVariantsByProductTitle(productTitle);
     }
 
     public List<ProductVariant> findVariantsWithLowStock(int threshold) {
-        // This would need to be implemented based on your inventory system
-        // For now, returning empty list as placeholder
+
         return List.of();
     }
 }

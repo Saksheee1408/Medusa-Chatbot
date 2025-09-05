@@ -19,7 +19,7 @@ public class ProductVariantController {
     @Autowired
     private ProductVariantService variantService;
 
-    // CREATE operations
+
     @PostMapping("/product/{productId}")
     public ResponseEntity<?> createVariant(
             @PathVariable String productId,

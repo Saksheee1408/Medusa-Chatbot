@@ -20,7 +20,7 @@ public class InventoryService {
     @Autowired
     private InventoryLevelRepository inventoryLevelRepository;
 
-    // Inventory Item operations
+
     public List<InventoryItem> getAllActiveItems() {
         return inventoryItemRepository.findByDeletedAtIsNull();
     }
@@ -37,7 +37,7 @@ public class InventoryService {
         return inventoryItemRepository.findActiveBySku(sku);
     }
 
-    // Stock operations
+
     public BigDecimal getTotalStockForProduct(String productName) {
         return inventoryLevelRepository.getTotalAvailableStockByProductName(productName);
     }

@@ -25,7 +25,7 @@ public class EcommerceQueryService {
     @Autowired
     private PricingService pricingService;
 
-    // Complex query methods
+
     public Map<String, Object> getCompleteProductInfo(String productId) {
         Map<String, Object> info = new HashMap<>();
 
@@ -33,15 +33,15 @@ public class EcommerceQueryService {
         if (product.isPresent()) {
             info.put("product", product.get());
 
-            // Get pricing info
+
             List<Price> prices = pricingService.getProductPrices(productId);
             info.put("prices", prices);
 
-            // Get stock info for variants if available
+
             if (product.get().getVariants() != null) {
                 Map<String, Object> stockInfo = new HashMap<>();
                 for (ProductVariant variant : product.get().getVariants()) {
-                    // Assuming variant has inventory item mapping
+
                     Optional<InventoryLevel> stock = inventoryService.getStockLevel(variant.getId());
                     stock.ifPresent(level -> stockInfo.put(variant.getId(), level.getAvailable()));
                 }

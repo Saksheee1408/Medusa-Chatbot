@@ -82,7 +82,7 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        // Create a default variant if none exists
+
         if (savedProduct.getVariants() == null || savedProduct.getVariants().isEmpty()) {
             createDefaultVariant(savedProduct);
         }
@@ -90,7 +90,7 @@ public class ProductService {
         return savedProduct;
     }
 
-    // FIXED: Create default variant for a product with proper metadata handling
+
     public ProductVariant createDefaultVariant(Product product) {
         ProductVariant defaultVariant = new ProductVariant();
         defaultVariant.setTitle("Default Title");
@@ -105,14 +105,13 @@ public class ProductService {
         return variantService.createVariant(product.getId(), defaultVariant);
     }
 
-    // Create product with variants
+
     public Product createProductWithVariants(Product product, List<ProductVariant> variants) {
         // Save the product first
         Product savedProduct = createProduct(product);
 
-        // Create variants if provided
         if (variants != null && !variants.isEmpty()) {
-            // Remove the default variant if we're adding custom ones
+
             List<ProductVariant> existingVariants = variantService.getVariantsByProductId(savedProduct.getId());
             for (ProductVariant existingVariant : existingVariants) {
                 if ("Default Title".equals(existingVariant.getTitle())) {
@@ -120,10 +119,10 @@ public class ProductService {
                 }
             }
 
-            // FIXED: Ensure all variants have proper metadata before creating
+
             for (ProductVariant variant : variants) {
                 if (variant.getMetadata() == null) {
-                    variant.setMetadata(new java.util.HashMap<>()); // Set as empty HashMap
+                    variant.setMetadata(new java.util.HashMap<>());
                 }
             }
 
@@ -134,7 +133,7 @@ public class ProductService {
         return savedProduct;
     }
 
-    // Generate product description using Gemini AI
+
     private String generateDescriptionWithGemini(String title) {
         String prompt = createDescriptionPrompt(title);
         String requestBody = createGeminiRequest(prompt);
@@ -383,3 +382,4 @@ public class ProductService {
                 .substring(0, Math.min(20, title.length())) + "-001";
     }
 }
+//POC-AI Layer

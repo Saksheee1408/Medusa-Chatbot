@@ -30,7 +30,7 @@ public class ProductController {
         this.variantRepo = variantRepo;
     }
 
-    // Your existing endpoints
+
     @GetMapping("/stock/{productName}")
     public Map<String, Object> getProductStock(@PathVariable String productName) {
         Integer totalStock = variantRepo.getTotalStockByProductName(productName);
@@ -50,7 +50,7 @@ public class ProductController {
         return ResponseEntity.ok("ProductController is working!");
     }
 
-    // Additional CRUD endpoints for chatbot integration
+
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         Optional<Product> product = productService.getProductById(id);

@@ -34,12 +34,12 @@ public class EnhancedChatbotController {
 
         String response;
 
-        // Choose processing mode
+
         if ("ai".equalsIgnoreCase(mode)) {
-            // Use AI-powered service with Gemini
+
             response = enhancedChatService.chatWithGemini(message);
         } else {
-            // Use structured rule-based service
+
             response = enhancedChatbotService.processMessage(message);
         }
 
@@ -168,7 +168,7 @@ public class EnhancedChatbotController {
     @GetMapping("/status")
     public ResponseEntity<Map<String, Object>> getSystemStatus() {
         try {
-            // Get system statistics using the enhanced chatbot service
+
             String statusMessage = enhancedChatbotService.processMessage("status");
 
             Map<String, Object> statusResponse = new HashMap<>();
@@ -191,7 +191,7 @@ public class EnhancedChatbotController {
     public ResponseEntity<Map<String, Object>> getCapabilities() {
         Map<String, Object> capabilities = new HashMap<>();
 
-        // Data sources
+
         capabilities.put("dataSources", new String[]{
                 "Products with variants",
                 "Inventory items and stock levels",
@@ -210,7 +210,7 @@ public class EnhancedChatbotController {
                 "System status and statistics"
         });
 
-        // Processing features
+
         capabilities.put("processingFeatures", new String[]{
                 "Natural language understanding",
                 "Structured command processing",
